@@ -19,3 +19,9 @@ func (r *BookRepository) GetAllBook() ([]models.Book, error) {
 	result := r.db.Find(&books)
 	return books, result.Error
 }
+
+func (r *BookRepository) GetBookById(id int) (*models.Book , error) {
+	var books models.Book
+	result := r.db.First(&books,id)
+	return &books , result.Error
+}

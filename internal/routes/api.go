@@ -8,6 +8,7 @@ import (
 
 func RegisterBookRoutes(e *echo.Echo,h *handlers.BookHandler) {
 	e.GET("/books",h.GetAllBook)
+	e.GET("/books/:id",h.GetBookById)
 }
 
 func RegisterBookAllRoutes(e *echo.Echo,bookHandler *handlers.BookHandler) {

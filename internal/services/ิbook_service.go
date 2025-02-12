@@ -17,3 +17,6 @@ func (s *BookService) GetAllBook() ([]models.Book,error) {
 	return s.repo.GetAllBook()
 }
 
+func (s *BookService) GetBookById(id int) (*models.Book,error) {
+	return s.repo.GetBookById(id)
+}
