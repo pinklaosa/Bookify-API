@@ -25,3 +25,7 @@ func (r *BookRepository) GetBookById(id int) (*models.Book , error) {
 	result := r.db.First(&books,id)
 	return &books , result.Error
 }
+
+func (r *BookRepository) CreateBook(book *models.Book) error {
+	return r.db.Create(book).Error;
+}
