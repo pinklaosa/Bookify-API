@@ -28,3 +28,7 @@ func (s *BookService) CreateBook(book *models.Book) error {
 func (s *BookService) DeleteBookById(id int) error {
 	return s.repo.DeleteBookById(id);
 }
+
+func (s *BookService) UpdateBook(id int,book *models.Book) error {
+	return s.repo.UpdateBook(id,book);
+}

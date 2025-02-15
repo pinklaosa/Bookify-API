@@ -37,3 +37,12 @@ func (r *BookRepository) DeleteBookById(id int) error {
 	}
 	return r.db.Delete(&models.Book{},id).Error
 }
+
+func (r *BookRepository) UpdateBook(id int,updatedBook *models.Book) error {
+	var book models.Book;
+	if err := r.db.First(&book,id).Error; err != nil {
+		return err;
+	}
+	return r.db.Model(&book).Updates(updatedBook).Error;
+
+}

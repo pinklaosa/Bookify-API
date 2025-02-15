@@ -11,6 +11,7 @@ func RegisterBookRoutes(e *echo.Echo, h *handlers.BookHandler) {
 	e.GET("/books/:id", h.GetBookById)
 	e.POST("/books", h.CreateBook)
 	e.DELETE("/books/:id", h.DeleteBookById)
+	e.PUT("/books/:id",h.UpdateBook)
 }
 
 func RegisterBookAllRoutes(e *echo.Echo, bookHandler *handlers.BookHandler) {
