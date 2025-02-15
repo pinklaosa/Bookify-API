@@ -20,12 +20,20 @@ func (r *BookRepository) GetAllBook() ([]models.Book, error) {
 	return books, result.Error
 }
 
-func (r *BookRepository) GetBookById(id int) (*models.Book , error) {
+func (r *BookRepository) GetBookById(id int) (*models.Book, error) {
 	var books models.Book
-	result := r.db.First(&books,id)
-	return &books , result.Error
+	result := r.db.First(&books, id)
+	return &books, result.Error
 }
 
 func (r *BookRepository) CreateBook(book *models.Book) error {
-	return r.db.Create(book).Error;
+	return r.db.Create(book).Error
+}
+
+func (r *BookRepository) DeleteBookById(id int) error {
+	var book models.Book;
+	if err := r.db.First(&book,id).Error; err != nil {
+		return err;
+	}
+	return r.db.Delete(&models.Book{},id).Error
 }

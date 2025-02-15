@@ -50,3 +50,16 @@ func (h *BookHandler) CreateBook(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated,newBook)
 }
+
+func (h *BookHandler) DeleteBookById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid ID"})
+	}
+
+	if err := h.services.DeleteBookById(id); err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"error": "Book not found"})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "Book deleted successfully"})
+}

@@ -1,6 +1,7 @@
 package database
 
 import (
+	"Bookify/internal/models"
 	"fmt"
 	"log"
 
@@ -18,6 +19,15 @@ const (
 	dbname   = "mydatabase"
 )
 
+func MigrateDB(db *gorm.DB) {
+	err := db.AutoMigrate(&models.Book{}) 
+	if err != nil {
+		log.Fatal("Migration failed:", err)
+	}
+	fmt.Println("Database migrated successfully!")
+}
+
+
 func ConnectDb() *gorm.DB{
 	dsn := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
@@ -27,6 +37,9 @@ func ConnectDb() *gorm.DB{
 		log.Fatal("Failed to connect to db: ", err)
 	}
 
+	// MigrateDB(db)
 	DB = db
 	return DB
 }
+
+

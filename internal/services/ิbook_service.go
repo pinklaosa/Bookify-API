@@ -24,3 +24,7 @@ func (s *BookService) GetBookById(id int) (*models.Book, error) {
 func (s *BookService) CreateBook(book *models.Book) error {
 	return s.repo.CreateBook(book)
 }
+
+func (s *BookService) DeleteBookById(id int) error {
+	return s.repo.DeleteBookById(id);
+}
