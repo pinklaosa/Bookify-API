@@ -20,7 +20,8 @@ const (
 )
 
 func MigrateDB(db *gorm.DB) {
-	err := db.AutoMigrate(&models.Book{}) 
+	// err := db.AutoMigrate(&models.Book{}) 
+	err := db.AutoMigrate(&models.Category{}) 
 	if err != nil {
 		log.Fatal("Migration failed:", err)
 	}

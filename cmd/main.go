@@ -16,9 +16,15 @@ func main() {
 	BookService := services.NewBookService(*BookRepository)
 	BookHandler := handlers.NewBookHandler(*BookService)
 
+	CategoryRepository := repositories.NewCategoryRepository(db)
+	CategoryService := services.NewCategoryService(*CategoryRepository);
+	CategoryHandler := handlers.NewCategoryHandler(*CategoryService);
+
+	
 	e := echo.New()
 	
 	routes.RegisterBookAllRoutes(e,BookHandler)
+	routes.RegisterCategoryAllRoutes(e,CategoryHandler);
 	
 	e.Logger.Fatal(e.Start(":1324"))
 }
