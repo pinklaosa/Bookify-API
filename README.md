@@ -45,7 +45,7 @@ This is a Book Management API built with Golang using the Echo framework. It fol
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/book-api.git
+   git clone https://github.com/pinklaosa/book-api.git
    cd book-api
    ```
 2. Install dependencies:
