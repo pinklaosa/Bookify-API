@@ -11,11 +11,17 @@ type CategoryRepository struct {
 }
 
 func NewCategoryRepository(db *gorm.DB) *CategoryRepository {
-	return &CategoryRepository{db:db}
+	return &CategoryRepository{db: db}
 }
 
-func (r *CategoryRepository)GetAllCategory() ([]models.Category,error) {
+func (r *CategoryRepository) GetAllCategory() ([]models.Category, error) {
 	var categories []models.Category
-	result := r.db.Find(&categories);
-	return categories , result.Error
+	result := r.db.Find(&categories)
+	return categories, result.Error
+}
+
+func (r *CategoryRepository) GetCategoryById(id int) (*models.Category, error) {
+	var categories models.Category
+	result := r.db.First(&categories, id)
+	return &categories, result.Error
 }
