@@ -25,3 +25,10 @@ func (r *CategoryRepository) GetCategoryById(id int) (*models.Category, error) {
 	result := r.db.First(&categories, id)
 	return &categories, result.Error
 }
+
+func (r *CategoryRepository) CreateCategory(category *models.Category)  error{
+		result := r.db.Create(category)
+		return result.Error
+}
+
+

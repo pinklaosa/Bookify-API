@@ -16,3 +16,11 @@ func NewCategoryService(repo repositories.CategoryRepository) *CategoryService {
 func (s *CategoryService) GetAllCategory() ([]models.Category,error) {
 	return s.repo.GetAllCategory();
 }
+
+func (s *CategoryService) GetCategoryById(id int) (*models.Category,error){
+	return s.repo.GetCategoryById(id);
+}
+
+func (s *CategoryService) CreateCategory(category *models.Category) error {
+	return s.repo.CreateCategory(category);
+}

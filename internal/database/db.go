@@ -24,8 +24,9 @@ func MigrateDB(db *gorm.DB) {
 
 
 func ConnectDb() *gorm.DB{
-
+	config.LoadConfig()
 	cfg := config.AppConfigInstance.Database;
+	fmt.Println(cfg)
 
 	dsn := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
