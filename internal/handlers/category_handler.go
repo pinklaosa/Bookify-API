@@ -20,7 +20,7 @@ func NewCategoryHandler(services services.CategoryService) *CategoryHandler {
 func (h *CategoryHandler) GetAllCategory(c echo.Context) error  {
 	result, err := h.services.GetAllCategory();
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error":"Failed tpo Fetch"})
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error":"Failed to Fetch"})
 	}
 	return c.JSON(http.StatusOK, result);
 }
@@ -52,3 +52,34 @@ func (h *CategoryHandler) CreateCategory(c echo.Context) error {
 	return c.JSON(http.StatusCreated, category);
 }
 
+func (h *CategoryHandler) UpdateCategory(c echo.Context) error {
+	id,err := strconv.Atoi(c.Param("id"));
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid ID"})
+	}
+
+	updatedCategory := new(models.Category);
+
+	if err := c.Bind(&updatedCategory); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid Input"})
+	}
+
+	if err := h.services.UpdateCategory(id,updatedCategory); err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"error": "Category not found"})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "Category updated successfully"})
+}	
+
+func (h *CategoryHandler) DeleteCategory(c echo.Context) error {
+	id,err := strconv.Atoi(c.Param("id"));
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error":"Invalid Input"});
+	}
+
+	if err := h.services.DeleteCategory(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error":"Fail to Delete"})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"success":"Deleted"})
+}
