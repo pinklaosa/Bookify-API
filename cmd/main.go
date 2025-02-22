@@ -20,11 +20,16 @@ func main() {
 	CategoryService := services.NewCategoryService(*CategoryRepository);
 	CategoryHandler := handlers.NewCategoryHandler(*CategoryService);
 
+	UserRepository := repositories.NewUserRepository(db)
+	AuthService := services.NewAuthService(*UserRepository)
+	UserHandler := handlers.NewAuthHandler(*AuthService)
+
 	
 	e := echo.New()
 	
 	routes.RegisterBookAllRoutes(e,BookHandler)
 	routes.RegisterCategoryAllRoutes(e,CategoryHandler);
+	routes.RegisterUserAllRoutes(e,UserHandler)
 	
 	e.Logger.Fatal(e.Start(":1324"))
 }
