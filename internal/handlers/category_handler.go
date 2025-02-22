@@ -17,68 +17,68 @@ func NewCategoryHandler(services services.CategoryService) *CategoryHandler {
 }
 
 func (h *CategoryHandler) GetAllCategory(c echo.Context) error {
-	base := DefineContext(c)
+	base := NewBaseHandler()
 	result, err := h.services.GetAllCategory()
 	if err != nil {
-		return base.JSONBadRequest(err)
+		return base.JSONBadRequest(c, err)
 	}
-	return base.JSONSuccessRequest(result)
+	return base.JSONSuccess(c, result)
 }
 
 func (h *CategoryHandler) GetCategoryById(c echo.Context) error {
-	base := DefineContext(c)
+	base := NewBaseHandler()
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return base.JSONBadRequest(err)
+		return base.JSONBadRequest(c, err)
 	}
 	category, err := h.services.GetCategoryById(id)
 	if err != nil {
-		return base.JSONNotFound(err)
+		return base.JSONNotFound(c, err)
 	}
-	return base.JSONSuccessRequest(category)
+	return base.JSONSuccess(c, category)
 }
 
 func (h *CategoryHandler) CreateCategory(c echo.Context) error {
-	base := DefineContext(c);
+	base := NewBaseHandler()
 	category := new(models.Category)
 	if err := c.Bind(&category); err != nil {
-		return base.JSONBadRequest(err)
+		return base.JSONBadRequest(c, err)
 	}
 
 	if err := h.services.CreateCategory(category); err != nil {
-		return base.JSONInternalServer(err)
+		return base.JSONInternalServer(c, err)
 	}
 
-	return base.JSONCreated(category);
+	return base.JSONCreated(c, category)
 }
 
 func (h *CategoryHandler) UpdateCategory(c echo.Context) error {
-	base := DefineContext(c);
+	base := NewBaseHandler()
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return base.JSONBadRequest(err)
+		return base.JSONBadRequest(c, err)
 	}
 
 	updatedCategory := new(models.Category)
 	if err := c.Bind(&updatedCategory); err != nil {
-		return base.JSONBadRequest(err)
+		return base.JSONBadRequest(c, err)
 	}
 	if err := h.services.UpdateCategory(id, updatedCategory); err != nil {
-		return base.JSONNotFound(err)
+		return base.JSONNotFound(c, err)
 	}
-	return base.JSONSuccessRequest(updatedCategory);
+	return base.JSONSuccess(c, updatedCategory)
 }
 
 func (h *CategoryHandler) DeleteCategory(c echo.Context) error {
-	base := DefineContext(c);
+	base := NewBaseHandler()
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return base.JSONBadRequest(err)
+		return base.JSONBadRequest(c, err)
 	}
 
 	if err := h.services.DeleteCategory(id); err != nil {
-		return base.JSONInternalServer(err)
+		return base.JSONInternalServer(c, err)
 	}
 
-	return base.JSONSuccessRequest("Deleted")
+	return base.JSONSuccess(c, "Deleted")
 }
