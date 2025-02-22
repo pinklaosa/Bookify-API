@@ -3,7 +3,6 @@ package handlers
 import (
 	"Bookify/internal/models"
 	"Bookify/internal/services"
-	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -17,69 +16,69 @@ func NewCategoryHandler(services services.CategoryService) *CategoryHandler {
 	return &CategoryHandler{services: services}
 }
 
-func (h *CategoryHandler) GetAllCategory(c echo.Context) error  {
-	result, err := h.services.GetAllCategory();
+func (h *CategoryHandler) GetAllCategory(c echo.Context) error {
+	base := DefineContext(c)
+	result, err := h.services.GetAllCategory()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error":"Failed to Fetch"})
+		return base.JSONBadRequest(err)
 	}
-	return c.JSON(http.StatusOK, result);
+	return base.JSONSuccessRequest(result)
 }
 
-func (h *CategoryHandler) GetCategoryById(c echo.Context) error  {
-	id,err := strconv.Atoi(c.Param("id"));
+func (h *CategoryHandler) GetCategoryById(c echo.Context) error {
+	base := DefineContext(c)
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid Input"});
+		return base.JSONBadRequest(err)
 	}
-
-	category, err := h.services.GetCategoryById(id);
+	category, err := h.services.GetCategoryById(id)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, map[string]string{"error":"Category Not Found"});
+		return base.JSONNotFound(err)
 	}
-
-	return c.JSON(http.StatusOK,category)
+	return base.JSONSuccessRequest(category)
 }
 
 func (h *CategoryHandler) CreateCategory(c echo.Context) error {
+	base := DefineContext(c);
 	category := new(models.Category)
 	if err := c.Bind(&category); err != nil {
-		c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid Input"})
+		return base.JSONBadRequest(err)
 	}
 
 	if err := h.services.CreateCategory(category); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error":"Failed to create category"})
+		return base.JSONInternalServer(err)
 	}
 
-	return c.JSON(http.StatusCreated, category);
+	return base.JSONCreated(category);
 }
 
 func (h *CategoryHandler) UpdateCategory(c echo.Context) error {
-	id,err := strconv.Atoi(c.Param("id"));
+	base := DefineContext(c);
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid ID"})
+		return base.JSONBadRequest(err)
 	}
 
-	updatedCategory := new(models.Category);
-
+	updatedCategory := new(models.Category)
 	if err := c.Bind(&updatedCategory); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid Input"})
+		return base.JSONBadRequest(err)
 	}
-
-	if err := h.services.UpdateCategory(id,updatedCategory); err != nil {
-		return c.JSON(http.StatusNotFound, map[string]string{"error": "Category not found"})
+	if err := h.services.UpdateCategory(id, updatedCategory); err != nil {
+		return base.JSONNotFound(err)
 	}
-
-	return c.JSON(http.StatusOK, map[string]string{"message": "Category updated successfully"})
-}	
+	return base.JSONSuccessRequest(updatedCategory);
+}
 
 func (h *CategoryHandler) DeleteCategory(c echo.Context) error {
-	id,err := strconv.Atoi(c.Param("id"));
+	base := DefineContext(c);
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error":"Invalid Input"});
+		return base.JSONBadRequest(err)
 	}
 
 	if err := h.services.DeleteCategory(id); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error":"Fail to Delete"})
+		return base.JSONInternalServer(err)
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{"success":"Deleted"})
+	return base.JSONSuccessRequest("Deleted")
 }
