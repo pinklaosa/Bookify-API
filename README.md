@@ -1,114 +1,84 @@
-# Book API with Golang and Echo
+# Book Management API
 
-This is a Book Management API built with Golang using the Echo framework. It follows a clean architecture with separate layers for handlers, services, and repositories. The database is PostgreSQL, and the project uses Viper for configuration management.
+This is a book management API built with Golang and Echo framework. It follows a layered architecture consisting of handlers, services, and repositories. It supports CRUD operations for books and categories, and includes authentication using JWT.
 
 ## Features
-
+- User authentication (JWT-based login and registration)
 - CRUD operations for books
-- Category management
-- Retrieve books with their category names
+- CRUD operations for categories
+- Middleware for protected routes
 - PostgreSQL integration with GORM
 - Configuration management using Viper
-- Structured logging with Zap
-- Authentication using JWT (Planned)
-- Unit tests (Planned)
-- Docker support (Planned)
-- API documentation with Swagger (Planned)
+- Logging with Zap
 
 ## Project Structure
-
 ```
 /book-api
 ├── cmd
 │   └── main.go
-├── config
-│   └── config.yaml
 ├── internal
-│   ├── handlers
-│   ├── models
-│   ├── repositories
-│   ├── services
-│   └── database
-├── go.mod
-└── README.md
+│   ├── handlers      # Handles HTTP requests
+│   ├── services      # Business logic layer
+│   ├── repositories  # Database interaction layer
+│   ├── models        # Database models
+│   └── middleware    # Middleware for authentication & logging
+└── go.mod
 ```
 
-## Getting Started
-
-### Prerequisites
-
-- Golang (>=1.18)
-- PostgreSQL
-- Docker (Optional)
-
-### Installation
-
+## Installation
 1. Clone the repository:
    ```sh
-   git clone https://github.com/pinklaosa/book-api.git
+   git clone <repository-url>
    cd book-api
    ```
 2. Install dependencies:
    ```sh
    go mod tidy
    ```
-3. Set up PostgreSQL using Docker:
+3. Set up environment variables in `config.yaml`:
+   ```yaml
+   server:
+     port: 8080
+   database:
+     host: localhost
+     port: 5432
+     user: myuser
+     password: mypassword
+     dbname: mydatabase
+   jwt:
+     secret_key: "your-secret-key"
+   ```
+4. Start the PostgreSQL database using Docker:
    ```sh
    docker-compose up -d
    ```
-4. Update `config/config.yaml` with your database credentials.
-
-5. Run the project:
+5. Run the application:
    ```sh
-   go run cmd/main.go
+   air  # If using Air for live reload
    ```
 
-### API Endpoints
+## API Endpoints
 
-#### Books
-| Method | Endpoint       | Description             |
-|--------|---------------|-------------------------|
-| GET    | /books        | Get all books          |
-| GET    | /books/:id    | Get book by ID         |
-| POST   | /books        | Create a new book      |
-| PUT    | /books/:id    | Update book by ID      |
-| DELETE | /books/:id    | Delete book by ID      |
+### Authentication
+- **Register**: `POST /auth/register`
+- **Login**: `POST /auth/login`
 
-#### Categories
-| Method | Endpoint        | Description              |
-|--------|----------------|--------------------------|
-| GET    | /categories    | Get all categories       |
-| POST   | /categories    | Create a new category    |
+### Books
+- **Create Book**: `POST /books`
+- **Get All Books**: `GET /books`
+- **Get Book by ID**: `GET /books/:id`
+- **Update Book**: `PUT /books/:id`
+- **Delete Book**: `DELETE /books/:id`
 
-## Environment Configuration
+### Categories
+- **Create Category**: `POST /categories`
+- **Get All Categories**: `GET /categories`
+- **Get Category by ID**: `GET /categories/:id`
+- **Update Category**: `PUT /categories/:id`
+- **Delete Category**: `DELETE /categories/:id`
 
-The project uses Viper for configuration. Modify `config/config.yaml`:
-```yaml
-app:
-  port: 8080
+## Authentication
+- The API uses JWT for authentication.
+- To access protected routes, include the token in the `Authorization` header as: `Bearer <your-token>`.
 
-database:
-  host: localhost
-  port: 5432
-  user: myuser
-  password: mypassword
-  dbname: mydatabase
-  sslmode: disable
-```
-
-## Future Improvements
-
-- Implement JWT authentication
-- Add unit tests
-- Improve error handling
-- Dockerize the application
-- Integrate Swagger for API documentation
-
-## License
-
-This project is licensed under the MIT License. Feel free to use and modify it!
-
----
-
-💡 **Contributions are welcome!** If you find issues or want to add features, feel free to open a pull request.
 
