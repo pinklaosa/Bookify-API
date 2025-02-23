@@ -26,10 +26,11 @@ func main() {
 
 	
 	e := echo.New()
-	
-	routes.RegisterBookAllRoutes(e,BookHandler)
-	routes.RegisterCategoryAllRoutes(e,CategoryHandler);
 	routes.RegisterUserAllRoutes(e,UserHandler)
+	
+	protected := e.Group("");
+	routes.RegisterBookAllRoutes(protected,BookHandler)
+	routes.RegisterCategoryAllRoutes(e,CategoryHandler);
 	
 	e.Logger.Fatal(e.Start(":1324"))
 }

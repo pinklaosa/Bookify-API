@@ -58,3 +58,10 @@ func (b *BaseHandler) JSONNotFound(c echo.Context, err error) error {
 		Error:  err.Error(),
 	})
 }
+
+func (b *BaseHandler) JSONUnAuth(c echo.Context, err error) error {
+	return c.JSON(http.StatusUnauthorized, Response{
+		Status: http.StatusUnauthorized,
+		Error:  err.Error(),
+	})
+}

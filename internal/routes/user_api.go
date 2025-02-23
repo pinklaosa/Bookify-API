@@ -9,6 +9,7 @@ import (
 
 func RegisterUserRoutes(e *echo.Echo,h *handlers.AuthHandler){
 	e.POST("/register",h.Register);
+	e.POST("/login",h.Login)
 }
 
 func RegisterUserAllRoutes(e *echo.Echo,userHandler *handlers.AuthHandler) {

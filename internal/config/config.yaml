@@ -8,3 +8,6 @@ database:
   password: mypassword
   dbname: mydatabase
   sslmode: disable
+
+auth:
+  secretKey: supersucurekey.tide

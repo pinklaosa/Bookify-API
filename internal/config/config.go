@@ -9,10 +9,15 @@ import (
 type Config struct {
 	App      AppConfig
 	Database DatabaseConfig
+	Key KeyConfig
 }
 
 type AppConfig struct {
 	Port int
+}
+
+type KeyConfig struct {
+	SecretKey string
 }
 
 type DatabaseConfig struct {
