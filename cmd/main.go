@@ -28,9 +28,10 @@ func main() {
 	e := echo.New()
 	routes.RegisterUserAllRoutes(e,UserHandler)
 	
-	protected := e.Group("");
-	routes.RegisterBookAllRoutes(protected,BookHandler)
-	routes.RegisterCategoryAllRoutes(e,CategoryHandler);
+	admin := e.Group("/admin");
+	pub := e.Group("/api")
+	routes.RegisterBookAllRoutes(pub,admin,BookHandler)
+	routes.RegisterCategoryAllRoutes(pub,admin,CategoryHandler);
 	
 	e.Logger.Fatal(e.Start(":1324"))
 }

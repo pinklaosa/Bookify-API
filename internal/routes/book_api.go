@@ -8,21 +8,23 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func RegisterBookRoutes(e *echo.Group, h *handlers.BookHandler) {
-	cfk := config.AppConfigInstance.Key
-	e.Use(middleware.JWTMiddleware(cfk.SecretKey))
-	e.GET("/books", h.GetAllBook)
-	e.GET("/books/:id", h.GetBookById)
-	e.POST("/books", h.CreateBook)
-	e.DELETE("/books/:id", h.DeleteBookById)
-	e.PUT("/books/:id", h.UpdateBook)
+func RegisterBookRoutes(pub *echo.Group, h *handlers.BookHandler, cfk config.KeyConfig) {
+	pub.Use(middleware.JWTMiddleware(cfk.SecretKey))
+	pub.GET("/books", h.GetAllBook)
+	pub.GET("/books/:id", h.GetBookById)
+
 }
 
-func RegisterBookAllRoutes(e *echo.Group, bookHandler *handlers.BookHandler) {
+func RegisterBookAdminRoutes(admin *echo.Group, h *handlers.BookHandler, cfk config.KeyConfig) {
+	admin.Use(middleware.JWTMiddleware(cfk.SecretKey))
+	admin.Use(middleware.RoleMiddleware("admin"))
+	admin.POST("/books", h.CreateBook)
+	admin.DELETE("/books/:id", h.DeleteBookById)
+	admin.PUT("/books/:id", h.UpdateBook)
+}
 
-	e.GET("/health", func(c echo.Context) error {
-		return c.JSON(200, map[string]string{"status": "OK"})
-	})
-
-	RegisterBookRoutes(e, bookHandler)
+func RegisterBookAllRoutes(pub, admin *echo.Group, bookHandler *handlers.BookHandler) {
+	cfk := config.AppConfigInstance.Key
+	RegisterBookRoutes(pub, bookHandler, cfk)
+	RegisterBookAdminRoutes(admin, bookHandler, cfk)
 }
