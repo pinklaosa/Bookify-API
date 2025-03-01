@@ -16,3 +16,7 @@ func NewReviewService(repo repositories.ReviewRepository) *ReviewService {
 func (s *ReviewService) GetBookReview(bookId int) (*models.Review,error) {
 	return s.repo.GetBookReview(bookId)
 }
+
+func (s *ReviewService) CreateReview(review *models.Review) error{
+	return s.repo.CreateReview(review)
+}

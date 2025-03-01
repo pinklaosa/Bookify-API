@@ -22,3 +22,8 @@ func (r *ReviewRepository) GetBookReview(bookId int) (*models.Review, error) {
 	}
 	return &reviews,nil
 }
+
+
+func (r *ReviewRepository) CreateReview(review *models.Review) error {
+	return r.db.Create(review).Error
+}

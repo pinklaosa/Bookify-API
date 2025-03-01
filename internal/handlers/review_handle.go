@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"Bookify/internal/models"
 	"Bookify/internal/services"
 	"strconv"
 
@@ -30,3 +31,15 @@ func (h *ReviewHandler) GetBookReview(c echo.Context) error {
 	return h.base.JSONSuccess(c,reviews)
 }
 
+func (h *ReviewHandler) CreateReview(c echo.Context) error{
+	newReview := new(models.Review)
+	if err := c.Bind(&newReview); err != nil {
+		return h.base.JSONBadRequest(c,err)
+	}
+
+	if err := h.services.CreateReview(newReview); err != nil {
+		return h.base.JSONInternalServer(c,err)
+	}
+
+	return h.base.JSONCreated(c,newReview)
+}
