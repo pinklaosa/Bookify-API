@@ -10,7 +10,7 @@ import (
 
 func RegisterReviewRoutes(pub *echo.Group,h *handlers.ReviewHandler, cfk config.KeyConfig)  {
 	pub.Use(middleware.JWTMiddleware(cfk.SecretKey))
-	pub.GET("/reiviews/:book_id",h.GetBookReview)
+	pub.GET("/review/:book_id",h.GetBookReview)
 }
 
 func RegisterReviewAllRoutes(pub, admin *echo.Group,reviewHandler *handlers.ReviewHandler) {
