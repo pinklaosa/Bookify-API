@@ -24,6 +24,9 @@ func main() {
 	AuthService := services.NewAuthService(*UserRepository)
 	UserHandler := handlers.NewAuthHandler(*AuthService)
 
+	ReviewRepository := repositories.NewReviewRepository(db)
+	ReviewService := services.NewReviewService(*ReviewRepository)
+	ReviewHandler := handlers.NewReviewHandler(ReviewService)
 	
 	e := echo.New()
 	routes.RegisterUserAllRoutes(e,UserHandler)
@@ -32,6 +35,7 @@ func main() {
 	pub := e.Group("/api")
 	routes.RegisterBookAllRoutes(pub,admin,BookHandler)
 	routes.RegisterCategoryAllRoutes(pub,admin,CategoryHandler);
+	routes.RegisterReviewAllRoutes(pub, admin,ReviewHandler)
 	
 	e.Logger.Fatal(e.Start(":1324"))
 }

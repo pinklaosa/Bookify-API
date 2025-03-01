@@ -9,6 +9,10 @@ type ReviewService struct {
 	repo repositories.ReviewRepository
 }
 
-func (s *ReviewService) GetBookReview(bookID int) (*models.Review,error) {
-	return s.repo.GetBookReview(bookID)
+func NewReviewService(repo repositories.ReviewRepository) *ReviewService {
+	return &ReviewService{repo: repo}
+}
+
+func (s *ReviewService) GetBookReview(bookId int) (*models.Review,error) {
+	return s.repo.GetBookReview(bookId)
 }
