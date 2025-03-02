@@ -20,3 +20,7 @@ func (s *ReviewService) GetBookReview(bookId int) (*models.Review,error) {
 func (s *ReviewService) CreateReview(review *models.Review) error{
 	return s.repo.CreateReview(review)
 }
+
+func (s *ReviewService) DeleteReview(id int) error{
+	return s.repo.DeleteReview(id);
+}

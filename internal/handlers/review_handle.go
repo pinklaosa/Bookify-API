@@ -43,3 +43,16 @@ func (h *ReviewHandler) CreateReview(c echo.Context) error{
 
 	return h.base.JSONCreated(c,newReview)
 }
+
+func (h *ReviewHandler) DeleteReview(c echo.Context) error {
+	id,err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return h.base.JSONBadRequest(c,err)
+	}
+
+	if err := h.services.DeleteReview(id); err != nil {
+		return h.base.JSONInternalServer(c,err)
+	}
+
+	return h.base.JSONSuccess(c,"Review deleted")
+}

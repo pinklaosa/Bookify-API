@@ -23,7 +23,14 @@ func (r *ReviewRepository) GetBookReview(bookId int) (*models.Review, error) {
 	return &reviews,nil
 }
 
-
 func (r *ReviewRepository) CreateReview(review *models.Review) error {
 	return r.db.Create(review).Error
+}
+
+func (r *ReviewRepository) DeleteReview(id int) error{
+	var review models.Review
+	if err := r.db.First(&review,id).Error; err != nil {
+		return err
+	}
+	return r.db.Delete(&models.Review{},id).Error
 }
