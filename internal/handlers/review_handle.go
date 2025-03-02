@@ -13,10 +13,10 @@ type ReviewHandler struct {
 	services services.ReviewService
 }
 
-func NewReviewHandler(services *services.ReviewService) *ReviewHandler{
+func NewReviewHandler(services services.ReviewService) *ReviewHandler{
 	return &ReviewHandler{
 		base: *NewBaseHandler(),
-		services: *services}
+		services: services}
 }
 
 func (h *ReviewHandler) GetBookReview(c echo.Context) error {

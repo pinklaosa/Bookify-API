@@ -12,6 +12,7 @@ func RegisterReviewRoutes(pub *echo.Group,h *handlers.ReviewHandler, cfk config.
 	pub.Use(middleware.JWTMiddleware(cfk.SecretKey))
 	pub.GET("/review/:book_id",h.GetBookReview)
 	pub.POST("/review",h.CreateReview)
+	pub.DELETE("/review/:id",h.DeleteReview)
 }
 
 func RegisterReviewAllRoutes(pub, admin *echo.Group,reviewHandler *handlers.ReviewHandler) {

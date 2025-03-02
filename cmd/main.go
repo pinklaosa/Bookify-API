@@ -26,7 +26,11 @@ func main() {
 
 	ReviewRepository := repositories.NewReviewRepository(db)
 	ReviewService := services.NewReviewService(*ReviewRepository)
-	ReviewHandler := handlers.NewReviewHandler(ReviewService)
+	ReviewHandler := handlers.NewReviewHandler(*ReviewService)
+
+	FavoriteRepository := repositories.NewFavoriteRepository(db)
+	FavoriteService := services.NewFavoriteService(FavoriteRepository)
+	FavoriteHandler := handlers.NewFavoriteHandler(FavoriteService)
 	
 	e := echo.New()
 	routes.RegisterUserAllRoutes(e,UserHandler)
@@ -36,6 +40,7 @@ func main() {
 	routes.RegisterBookAllRoutes(pub,admin,BookHandler)
 	routes.RegisterCategoryAllRoutes(pub,admin,CategoryHandler);
 	routes.RegisterReviewAllRoutes(pub, admin,ReviewHandler)
+	routes.RegisterFavoriteAllroutes(pub,admin,FavoriteHandler)
 	
 	e.Logger.Fatal(e.Start(":1324"))
 }
