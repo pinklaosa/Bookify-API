@@ -9,7 +9,6 @@ This is a book management API built with Golang and Echo framework. It follows a
 - Middleware for protected routes
 - PostgreSQL integration with GORM
 - Configuration management using Viper
-- Logging with Zap
 
 ## Project Structure
 ```
