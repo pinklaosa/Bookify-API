@@ -12,3 +12,10 @@ type Book struct {
 	YearPublished int     `json:"year_published"`
 	Rating        float32 `json:"rating"`
 }
+
+
+type GetBookParams struct {
+	Title string
+	Category string
+	Rating string
+}

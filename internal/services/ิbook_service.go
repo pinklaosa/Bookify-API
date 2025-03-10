@@ -13,8 +13,8 @@ func NewBookService(repo repositories.BookRepository) *BookService {
 	return &BookService{repo: repo}
 }
 
-func (s *BookService) GetAllBook() ([]models.Book, error) {
-	return s.repo.GetAllBook()
+func (s *BookService) GetAllBook(params *models.GetBookParams) ([]models.Book, error) {
+	return s.repo.GetAllBook(params)
 }
 
 func (s *BookService) GetBookById(id int) (*models.Book, error) {

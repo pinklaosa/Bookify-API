@@ -18,7 +18,10 @@ func NewBookHandler(services services.BookService) *BookHandler {
 }
 
 func (h *BookHandler) GetAllBook(c echo.Context) error {
-	books, err := h.services.GetAllBook()
+	title := c.QueryParam("title")
+	category := c.QueryParam("category")
+	rating := c.QueryParam("rating")
+	books, err := h.services.GetAllBook(&models.GetBookParams{Title: title, Category: category, Rating: rating})
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to Fetch"})
 	}
