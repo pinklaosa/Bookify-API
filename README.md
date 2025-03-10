@@ -1,28 +1,19 @@
 # Book Management API
 
-This is a book management API built with Golang and Echo framework. It follows a layered architecture consisting of handlers, services, and repositories. It supports CRUD operations for books and categories, and includes authentication using JWT.
+This is a book management API built with Golang and Echo framework. It supports CRUD operations for books and categories, authentication using JWT, and role-based access control.
 
 ## Features
 - User authentication (JWT-based login and registration)
+- Role-based access control (Admin, Member)
 - CRUD operations for books
 - CRUD operations for categories
+- CRUD operations for favorites
+- CRUD operations for reviews
+- Search & Filtering for books
 - Middleware for protected routes
 - PostgreSQL integration with GORM
 - Configuration management using Viper
-
-## Project Structure
-```
-/book-api
-├── cmd
-│   └── main.go
-├── internal
-│   ├── handlers      # Handles HTTP requests
-│   ├── services      # Business logic layer
-│   ├── repositories  # Database interaction layer
-│   ├── models        # Database models
-│   └── middleware    # Middleware for authentication & logging
-└── go.mod
-```
+- Logging with Zap
 
 ## Installation
 1. Clone the repository:
@@ -68,6 +59,7 @@ This is a book management API built with Golang and Echo framework. It follows a
 - **Get Book by ID**: `GET /books/:id`
 - **Update Book**: `PUT /books/:id`
 - **Delete Book**: `DELETE /books/:id`
+- **Search & Filter Books**: `GET /books?title=Go&category=Programming&rating=4&page=1&limit=10&sort=title`
 
 ### Categories
 - **Create Category**: `POST /categories`
@@ -76,8 +68,26 @@ This is a book management API built with Golang and Echo framework. It follows a
 - **Update Category**: `PUT /categories/:id`
 - **Delete Category**: `DELETE /categories/:id`
 
+### Favorites
+- **Add to Favorites**: `POST /favorites`
+- **Get User Favorites**: `GET /favorites`
+- **Remove from Favorites**: `DELETE /favorites/:id`
+
+### Reviews
+- **Create Review**: `POST /reviews`
+- **Get Reviews for a Book**: `GET /reviews/:book_id`
+- **Update Review**: `PUT /reviews/:id`
+- **Delete Review**: `DELETE /reviews/:id`
+
+## Role-Based Access Control
+- Users have roles (`admin`, `member`).
+- Certain endpoints (e.g., creating/deleting books) are restricted to `admin` users.
+- Use JWT token for authentication and role validation.
+
 ## Authentication
 - The API uses JWT for authentication.
 - To access protected routes, include the token in the `Authorization` header as: `Bearer <your-token>`.
 
+## License
+MIT License
 
